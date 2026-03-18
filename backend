@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IRON PULSE • Chennai</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .logo-font { font-family: 'Space Grotesk', sans-serif; }
+    .glass { background: rgba(255,255,255,0.05); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); }
+    .neon-red { text-shadow: 0 0 20px #ff0033, 0 0 40px #ff0033; }
+    .card-hover { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 0 30px rgba(255, 51, 51, 0.4); }
+  </style>
+</head>
+<body class="bg-zinc-950 text-white min-h-screen">
+
+  <!-- NAVBAR -->
+  <nav class="bg-black border-b border-red-600 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <i class="fa-solid fa-dumbbell text-4xl text-red-600"></i>
+        <h1 class="logo-font text-3xl tracking-tighter neon-red">IRON PULSE</h1>
+      </div>
+      <div class="flex items-center gap-8 text-sm font-medium">
+        <button onclick="switchTab(0)" class="tab-btn active">DASHBOARD</button>
+        <button onclick="switchTab(1)" class="tab-btn">MY PLAN</button>
+        <button onclick="switchTab(2)" class="tab-btn">TODAY</button>
+        <button onclick="switchTab(3)" class="tab-btn">LIBRARY</button>
+      </div>
+      <div onclick="showProfile()" class="flex items-center gap-3 cursor-pointer">
+        <img src="https://i.pravatar.cc/128?u=eeshwar" class="w-9 h-9 rounded-2xl ring-2 ring-red-600" alt="Eeshwar"/>
+        <div>
+          <p class="font-semibold">Eeshwar E T</p>
+          <p class="text-xs text-zinc-400">Muscle Gain • Intermediate</p>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl mx-auto flex gap-8 px-6 py-8">
+
+    <!-- SIDEBAR -->
+    <div class="w-72 hidden lg:block">
+      <div class="glass rounded-3xl p-6 sticky top-24">
+        <div class="text-center mb-8">
+          <div class="w-24 h-24 mx-auto bg-gradient-to-br from-red-600 to-orange-500 rounded-2xl flex items-center justify-center text-5xl shadow-xl">💪</div>
+          <p class="mt-4 font-bold text-xl">Today's Streak 🔥</p>
+          <p class="text-6xl font-bold text-red-600">12</p>
+          <p class="text-xs text-zinc-400">days in a row</p>
+        </div>
+
+        <button onclick="checkIn()" 
+                class="w-full bg-gradient-to-r from-red-600 to-orange-600 hover:from-red-700 hover:to-orange-700 py-5 rounded-2xl font-bold text-lg flex items-center justify-center gap-3 shadow-2xl transition-all active:scale-95">
+          <i class="fa-solid fa-qrcode"></i> TOUCHLESS CHECK-IN
+        </button>
+
+        <div class="mt-10 space-y-6 text-sm">
+          <div class="flex justify-between"><span class="text-zinc-400">Attendance Last 30 Days</span><span class="font-bold">26/30</span></div>
+          <div class="h-2 bg-zinc-800 rounded-full overflow-hidden"><div class="h-full w-[86%] bg-gradient-to-r from-red-600 to-orange-500"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1" id="content">
+
+      <!-- DASHBOARD (Tab 0) -->
+      <div id="tab-0">
+        <h2 class="text-5xl font-bold tracking-tighter mb-2">Good morning, Eeshwar 👋</h2>
+        <p class="text-zinc-400 mb-10">Monday • Chest Day • Let's crush it</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Quick Stats -->
+          <div class="glass rounded-3xl p-8 card-hover">
+            <p class="text-sm text-zinc-400">Current Weight</p>
+            <p class="text-6xl font-bold mt-2">82.4 <span class="text-2xl text-red-600">kg</span></p>
+            <p class="text-emerald-400 text-sm mt-4">↓ 1.2 kg this month</p>
+          </div>
+          <div class="glass rounded-3xl p-8 card-hover">
+            <p class="text-sm text-zinc-400">Weekly Goal</p>
+            <div class="mt-6 flex justify-between text-5xl font-bold">
+              <span>4</span><span class="text-zinc-400">/6</span>
+            </div>
+            <p class="text-xs mt-8 text-red-600">Sessions Completed</p>
+          </div>
+          <div class="glass rounded-3xl p-8 card-hover bg-gradient-to-br from-zinc-900 to-black border border-red-600/30">
+            <p class="text-red-600 text-sm font-bold">MOTIVATION</p>
+            <p class="italic mt-4">"The pain you feel today will be the strength you feel tomorrow."</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MY PLAN (Tab 1) -->
+      <div id="tab-1" class="hidden">
+        <h2 class="text-4xl font-bold mb-8">Your 7-Day Personalized Plan</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-6" id="weekly-plan"></div>
+      </div>
+
+      <!-- TODAY'S WORKOUT (Tab 2) -->
+      <div id="tab-2" class="hidden">
+        <h2 class="text-4xl font-bold mb-6">Monday — Chest Day 🔥</h2>
+        <div class="glass rounded-3xl p-8" id="today-workout"></div>
+      </div>
+
+      <!-- EXERCISE LIBRARY (Tab 3) -->
+      <div id="tab-3" class="hidden">
+        <input id="search" type="text" placeholder="Search exercises..." 
+               class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-6 py-4 text-lg focus:outline-none focus:border-red-600"
+               onkeyup="filterExercises()">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8" id="exercise-library"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECK-IN SUCCESS MODAL -->
+  <div id="modal" class="hidden fixed inset-0 bg-black/80 flex items-center justify-center z-50">
+    <div class="glass rounded-3xl p-12 max-w-md text-center">
+      <i class="fa-solid fa-check-circle text-8xl text-emerald-400 mb-6"></i>
+      <h3 class="text-3xl font-bold mb-2">Checked In!</h3>
+      <p class="text-zinc-400">Monday 18 Mar 2026 • 06:42 AM</p>
+      <button onclick="closeModal()" class="mt-10 bg-white text-black font-bold px-10 py-4 rounded-2xl">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <script>
+    // Tailwind script
+    tailwind.config = { content: ["*"], theme: { extend: {} } }
+
+    // Sample data from your sp_GeneratePersonalizedWeeklyPlan (Muscle Gain)
+    const weeklyPlanData = [
+      { day: "Monday", name: "Chest Day", exercises: [
+        { name: "Bench Press", sets: "4", reps: "6-10", var: "Flat Barbell", note: "Heavy compound" },
+        { name: "Incline Dumbbell Press", sets: "4", reps: "8-12", var: "30° Incline" },
+        { name: "Chest Fly", sets: "3", reps: "10-15", var: "Dumbbell" }
+      ]},
+      { day: "Tuesday", name: "Pull Day", exercises: [
+        { name: "Pull Up", sets: "4", reps: "6-12", var: "Wide Grip" },
+        { name: "Bicep Curl", sets: "4", reps: "10-12", var: "Standing Dumbbell" }
+      ]},
+      // ... (you can expand with all days from your proc)
+    ];
+
+    const allExercises = [
+      {name:"Bench Press", group:"Chest", reps:"6-10"},
+      {name:"Bicep Curl", group:"Biceps", reps:"10-12"},
+      {name:"Squat", group:"Legs", reps:"6-10"},
+      // add more from your Exercises table
+    ];
+
+    function switchTab(n) {
+      document.querySelectorAll('#content > div').forEach(div => div.classList.add('hidden'));
+      document.getElementById('tab-'+n).classList.remove('hidden');
+      
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active','text-red-600'));
+      document.querySelectorAll('.tab-btn')[n].classList.add('active','text-red-600');
+
+      if(n===1) renderWeeklyPlan();
+      if(n===2) renderTodayWorkout();
+      if(n===3) renderLibrary();
+    }
+
+    function renderWeeklyPlan() {
+      const container = document.getElementById('weekly-plan');
+      container.innerHTML = weeklyPlanData.map((day,i) => `
+        <div onclick="openDay(${i})" class="glass rounded-3xl p-6 cursor-pointer card-hover">
+          <p class="text-red-600 text-sm font-bold">${day.day}</p>
+          <p class="text-2xl font-bold mt-1">${day.name}</p>
+          <div class="mt-6 text-xs space-y-1 text-zinc-400">
+            ${day.exercises.map(ex => `<div>${ex.name} • ${ex.sets}×${ex.reps}</div>`).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderTodayWorkout() {
+      const today = weeklyPlanData[0]; // Monday example
+      const html = today.exercises.map(ex => `
+        <div class="flex justify-between items-center py-6 border-b border-zinc-800 last:border-0">
+          <div>
+            <p class="font-semibold">${ex.name}</p>
+            <p class="text-sm text-zinc-400">${ex.var || ''}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-red-600 font-bold">${ex.sets} sets × ${ex.reps}</p>
+          </div>
+        </div>
+      `).join('');
+      document.getElementById('today-workout').innerHTML = `<div class="space-y-4">${html}</div>`;
+    }
+
+    function renderLibrary() {
+      const container = document.getElementById('exercise-library');
+      container.innerHTML = allExercises.map(ex => `
+        <div class="glass rounded-3xl p-6 card-hover">
+          <p class="font-bold">${ex.name}</p>
+          <p class="text-xs text-zinc-400">${ex.group} • ${ex.reps}</p>
+        </div>
+      `).join('');
+    }
+
+    function checkIn() {
+      document.getElementById('modal').classList.remove('hidden');
+      // Confetti (simple)
+      for(let i=0;i<30;i++){
+        setTimeout(()=> {
+          const c = document.createElement('div');
+          c.textContent = '💥';
+          c.style.position='fixed';
+          c.style.left = Math.random()*100+'vw';
+          c.style.top = '-50px';
+          c.style.fontSize = '30px';
+          document.body.appendChild(c);
+          setTimeout(()=>c.remove(),3000);
+        }, i*20);
+      }
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.add('hidden');
+      switchTab(0);
+    }
+
+    function openDay(i) {
+      alert(`Opened detailed view for ${weeklyPlanData[i].day} (add modal here)`);
+    }
+
+    function filterExercises() {
+      // simple search filter (expandable)
+      const term = document.getElementById('search').value.toLowerCase();
+      // re-render logic here if needed
+    }
+
+    function showProfile() {
+      alert("Profile modal would open here — membership, progress photos, Razorpay, etc.");
+    }
+
+    // Auto start on Dashboard
+    window.onload = () => {
+      switchTab(0);
+    };
+  </script>
+</body>
+</html>
